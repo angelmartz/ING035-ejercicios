@@ -28,14 +28,17 @@ INSERT INTO Personas (PersonaID, Nombre, Edad, Ciudad) VALUES
 (1, 'Juan', 28, 'Ciudad A'),
 (2, 'Ana', 34, 'Ciudad B'),
 (3, 'Luis', 45, 'Ciudad A'),
-(4, 'Sofía', 19, 'Ciudad C');
+(4, 'Sofía', 19, 'Ciudad C'),
+(5, 'Natalia', 19, 'Ciudad B'),
+(6, 'Jessica', 29, 'Ciudad C');
 
 -- Insertar datos en la tabla `Productos`
 INSERT INTO Productos (ProductoID, Nombre, Precio, Categoria) VALUES
 (1, 'Laptop', 1200.00, 'Electrónica'),
 (2, 'Smartphone', 600.00, 'Electrónica'),
-(3, 'Libro', 30.00, 'Libros'),
-(4, 'Cámara', 300.00, 'Electrónica');
+(3, 'Libro A', 30.00, 'Libros'),
+(4, 'Cámara', 300.00, 'Electrónica'),
+(5, 'Libro B', 60.00, 'Libros');
 
 -- Insertar datos en la tabla `Ventas`
 INSERT INTO Ventas (VentaID, ProductoID, Cantidad, Total) VALUES
@@ -148,6 +151,13 @@ WHERE Edad > (                            -- Solo selecciona las personas cuya e
     WHERE p2.Ciudad = p1.Ciudad           -- La subconsulta solo considera personas en la misma ciudad
 );                                        -- Esta subconsulta se ejecuta para cada fila en la consulta principal, calculando un promedio específico por ciudad
 
+SELECT "Podemos verificar sacando la edad promedio por ciudad";
+-- Obtener la edad promedio por cada ciudad
+SELECT Ciudad,                        -- Selecciona la ciudad
+       AVG(Edad) AS EdadPromedio      -- Calcula el promedio de edad para cada ciudad
+FROM Personas                          -- Tabla Personas
+GROUP BY Ciudad;                      -- Agrupa los resultados por ciudad
+
 -- Esto solo sirve para el INPUT de OneCompiler
 SELECT "Subconsulta Correlacionada en WHERE: Seleccionar productos cuyo precio es mayor que el precio promedio de los productos de su misma categoría";
 -- Seleccionar productos cuyo precio es mayor que el precio promedio de los productos de su misma categoría
@@ -158,3 +168,10 @@ WHERE Precio > (                          -- Solo selecciona productos cuyo prec
     FROM Productos p2                     -- La misma tabla `Productos`, ahora con alias `p2`
     WHERE p2.Categoria = p1.Categoria     -- La subconsulta solo considera productos de la misma categoría
 );                                        -- Esta subconsulta se ejecuta para cada fila, calculando el precio promedio específico por categoría
+
+SELECT "Podemos verificar sacando el precio promedio por categoria";
+-- Obtener el precio promedio por cada categoría de productos
+SELECT Categoria,                        -- Selecciona la categoría de cada producto
+       AVG(Precio) AS PrecioPromedio     -- Calcula el precio promedio de los productos en cada categoría
+FROM Productos                           -- Tabla Productos
+GROUP BY Categoria;                      -- Agrupa los resultados por categoría
